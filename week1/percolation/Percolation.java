@@ -8,6 +8,7 @@ public class Percolation {
   private int totalOpenSites;
   private int gridDimension;
 
+  // sets private variables 
   public Percolation (int n) {
     if (n <= 0) throw new IllegalArgumentException("Invalid dimension");
     gridDimension = n;
@@ -20,44 +21,50 @@ public class Percolation {
     } 
   }
 
+  // opens the site at the given coordinates and
+  // connects it to any surrounding sites that are open
   public void open(int row, int col) {
     checkArgs(row, col);
     if(!isOpen(row, col)) totalOpenSites++;
     grid[row-1][col-1] = 1;
     int i = computeIndex(row, col);
     if (row == 1) uf.union(0, i);
-    if (row == gridDimension) uf.union(totalNodes - 1, i);
+    else if (row == gridDimension) uf.union(totalNodes - 1, i);
     if (col < gridDimension && isOpen(row, col + 1)) uf.union(i, computeIndex(row, col + 1));
     if (col > 1 && isOpen(row, col - 1)) uf.union(i, computeIndex(row, col - 1));
     if (row < gridDimension && isOpen(row + 1, col)) uf.union(i, computeIndex(row + 1, col));
     if (row > 1 && isOpen(row - 1, col)) uf.union(i, computeIndex(row - 1, col));
   }
 
+  // checks if the site at the given coordinates is open
   public boolean isOpen(int row, int col) {
     checkArgs(row, col);
     return grid[row-1][col-1] == 1;
   }
 
+  // checks if the site at the given coordinates is full
   public boolean isFull(int row, int col) {
     checkArgs(row, col);
     int i = computeIndex(row, col);
     return uf.connected(0, i);
   }
 
+  // returns the number of open sites in the system
   public int numberOfOpenSites() {
     return totalOpenSites;
   }
 
+   // Returns true if the system percolates
   public boolean percolates() {
     return uf.connected(0, totalNodes - 1);
   }
 
-  // Converts the 2D coordinates of the grid to the 1D index of 
-  // the union-find object
+  // Converts 2D coordinates of the grid to 1D index
   private int computeIndex(int row, int col) {
     return ((row - 1) * gridDimension) + col;
   }
 
+  // Checks row and col arguments
   private void checkArgs(int row, int col) {
     if (row < 1 || col < 1 || row > gridDimension || col > gridDimension) throw new IllegalArgumentException("Invalid arguments");
   }

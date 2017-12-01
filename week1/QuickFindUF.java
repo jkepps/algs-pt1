@@ -1,5 +1,5 @@
-import java.io.StringReader;
-import java.io.StringWriter;
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdIn;
 
 public class QuickFindUF {
   private int[] id;
