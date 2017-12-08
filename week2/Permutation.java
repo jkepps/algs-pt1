@@ -3,19 +3,14 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.Iterator;
 public class Permutation {
   public static void main(String[] args) {
-    Deque<String> queue = new Deque<String>();
+    RandomizedQueue<String> queue = new RandomizedQueue<String>();
     int k = Integer.parseInt(args[0]);
-    // String str = StdIn.readString();
     while (!StdIn.isEmpty()) {
-      queue.addFirst(StdIn.readString());
-      // str += '\n' + StdIn.readString();
+      queue.enqueue(StdIn.readString());
     }
     Iterator<String> iterator = queue.iterator();
-    while (iterator.hasNext()) {
+    for (int i = 0; i < k; i++) {
       StdOut.println(iterator.next());
-    }
-    while (queue.size() > 0) {
-      StdOut.println(queue.removeLast());
     }
   }
 }
